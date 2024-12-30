@@ -9,6 +9,8 @@ body,html{
 }
 .pageAccueil{
     display: none;
+    flex-direction: column;
+    align-items: center;
 }
 /* -------------------------------Colors------------------------------- */
 .primaryColor{

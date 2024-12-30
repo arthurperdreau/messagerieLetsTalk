@@ -39,6 +39,64 @@ function testToken(token) {
         return true
     }
 }
+
+
+async function arrayAllUsersUsername(){
+    let paramsAllUsersUsername={
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+    }
+    return await fetch("https://b1messenger.esdlyon.dev/api/messages",paramsAllUsersUsername)
+        .then(response => response.json())
+        .then(data => {
+            //console.log("reponse allUsers:",data)
+            let allUsersUsername=[]
+            data.forEach(element => {
+                if(!(allUsersUsername.includes(element.author.username)) ){
+                    allUsersUsername.push(element.author.username)
+                }
+            })
+
+            return allUsersUsername
+        })
+}
+async function arrayAllUsersId(){
+    let paramsAllUsers={
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+    }
+    return await fetch("https://b1messenger.esdlyon.dev/api/messages",paramsAllUsers)
+    .then(response => response.json())
+    .then(data => {
+        //console.log("reponse allUsers:",data)
+        let allUsersId=[]
+        data.forEach(element => {
+            if(!(allUsersId.includes(element.author.id)) ){
+                allUsersId.push(element.author.id)
+                //console.log(allUsers)
+            }
+        })
+
+        return allUsersId
+    })
+}
+
+function allConversations(){
+    let arrayUsername=arrayAllUsersUsername()
+    let arrayUsersId=arrayAllUsersId()
+    for(let i=0; i<arrayUsersId.length; i++){
+        let divUser=document.createElement("div");
+        divUser.classList.add("d-flex");
+        let username=document.createElement("span");
+        username.textContent=arrayUsername[i]
+    }
+}
 //-------------------------------addEvent-------------------------------
 
 //-->display loginBox
@@ -76,6 +134,9 @@ loginBtn.addEventListener("click", () => {
     login(loginUsernameInput,loginPasswordInput)
         .then((response) => {
             token=response;
+            //console.log("mon token :",token)
+            //console.log("appel fonction",arrayAllUsers())
+
             if(testToken(token)){
                 pageForm.style.display = "none";
                 pageAccueil.style.display = "flex";
