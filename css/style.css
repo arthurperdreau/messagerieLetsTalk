@@ -1,0 +1,67 @@
+body,html{
+    margin: 0;
+    padding: 0;
+}
+
+.page{
+    height: 70vh;
+    display: flex;
+}
+.pageAccueil{
+    display: none;
+}
+/* -------------------------------Colors------------------------------- */
+.primaryColor{
+    color: #A238FF;
+}
+
+.secondaryColor{
+    color: #8370E0;
+}
+
+/* -------------------------------navBar design------------------------------- */
+.navBar{
+    height: 10vh;
+    width: 100%;
+    background-color: #A238FF;
+    display: flex;
+}
+
+.logo{
+    height: 4vh;
+    width: 4vh;
+}
+
+
+/* -------------------------------sign up and login design------------------------------- */
+.signupBox{
+    display: flex;
+}
+
+.signupUsernameInput,.signupPasswordInput,.loginPasswordInput,.loginUsernameInput{
+    width: 100%;
+    max-width: 30vh;
+    border-radius: 10px;
+    border:2px solid #A238FF;
+}
+
+.signupBtn,.loginBtn{
+    background-color: #A238FF;
+    border: none;
+    color: white;
+    padding: 1vh;
+    border-radius: 10px;
+    width: 75%;
+}
+
+.account{
+    width: 100%;
+    border:none;
+    background-color: white;
+}
+
+.loginBox{
+    display: none;
+}
+
+/*------------------------------- -------------------------------  */
