@@ -67,3 +67,26 @@ body,html{
 }
 
 /*------------------------------- -------------------------------  */
+.usernameBoxAccueil{
+    display: flex;
+    width: 30%;
+    min-width: 50vh;
+    padding: 1vh;
+    border:2px solid #8370E0;
+    margin-top:2vh;
+    align-items: center;
+}
+
+.textUsernameBoxAccueil{
+    color: #A238FF;
+    font-weight: bold;
+    font-size: 4vh;
+}
+
+.imageUsernameBoxAccueil{
+    height: 4vh;
+    width: 4vh;
+    border-radius: 50px;
+    margin-left: 2vh;
+    margin-right: 2vh;
+}

@@ -86,15 +86,57 @@ async function arrayAllUsersId(){
         return allUsersId
     })
 }
+async function arrayAllUsersImage(){
+    let paramsAllUsersImage={
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+    }
+    return await fetch("https://b1messenger.esdlyon.dev/api/messages",paramsAllUsersImage)
+        .then(response => response.json())
+        .then(data => {
+            //console.log("reponse allUsers:",data)
+            let idUser=[]
+            let allUsersImage=[]
+            data.forEach(element => {
+                if(element.author.image===null && !(idUser.includes(element.author.id))){
+                    allUsersImage.push("images/noneProfilePicture.jpg")
+                }else{
+                    if(!(allUsersImage.includes(element.author.image.imageName))){
+                        allUsersImage.push(element.author.image.imageName)
+                    }
 
-function allConversations(){
-    let arrayUsername=arrayAllUsersUsername()
-    let arrayUsersId=arrayAllUsersId()
+                }
+                if(!(idUser.includes(element.author.id)) ){
+                    idUser.push(element.author.id)
+                }
+
+            })
+
+            return allUsersImage
+        })
+}
+
+async function allConversations(){
+    let arrayUsername= await arrayAllUsersUsername()
+    let arrayUsersId=await arrayAllUsersId()
+    let arrayImage=await arrayAllUsersImage()
+    console.log("arrayUsersId",arrayUsersId)
     for(let i=0; i<arrayUsersId.length; i++){
         let divUser=document.createElement("div");
-        divUser.classList.add("d-flex");
+        divUser.classList.add("usernameBoxAccueil");
+        let imageUser=document.createElement("img");
+        imageUser.src=arrayImage[i]
+        imageUser.classList.add("imageUsernameBoxAccueil");
         let username=document.createElement("span");
         username.textContent=arrayUsername[i]
+        username.classList.add("textUsernameBoxAccueil");
+        divUser.appendChild(imageUser);
+        divUser.appendChild(username);
+        divUser.setAttribute("id",arrayUsersId[i]);
+        pageAccueil.appendChild(divUser)
     }
 }
 //-------------------------------addEvent-------------------------------
@@ -140,6 +182,7 @@ loginBtn.addEventListener("click", () => {
             if(testToken(token)){
                 pageForm.style.display = "none";
                 pageAccueil.style.display = "flex";
+                allConversations()
             }
         })
 })
