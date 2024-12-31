@@ -139,7 +139,7 @@ body,html{
 }
 
 .messageOfFriend{
-    font-size: 4vh;
+    font-size: 2vh;
 }
 
 .divMyMessage{
@@ -154,5 +154,5 @@ body,html{
 
 .messageOfMe{
     color: white;
-    font-size: 4vh;
+    font-size: 2vh;
 }

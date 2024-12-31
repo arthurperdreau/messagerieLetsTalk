@@ -120,7 +120,38 @@ async function arrayAllUsersImage(){
         })
 }
 
-function displayMessages(idUser){
+async function allPrivateConversation(){
+    let arrayCoupleIdUserIdConversation=[];
+    let paramsAllConversation={
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+    }
+    return await fetch("https://b1messenger.esdlyon.dev/api/private/conversations",paramsAllConversation)
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(element => {
+            arrayCoupleIdUserIdConversation.push([element.lastMessage.author.id,element.id])
+        })
+        return arrayCoupleIdUserIdConversation
+    })
+
+}
+async function testPrivateConversation(idUser){
+    let arrayIdConversation=await allPrivateConversation()
+    console.log(arrayIdConversation)
+    let goodCouple
+    for(let i=0;i<arrayIdConversation.length;i++){
+        if(arrayIdConversation[i][0]===idUser){
+            goodCouple = arrayIdConversation[i]
+            break
+        }
+    }
+    return goodCouple
+}
+async function displayMessages(idUser){
     let authorization={
         method: "GET",
         headers: {
@@ -128,15 +159,15 @@ function displayMessages(idUser){
             "Authorization": `Bearer ${token}`
         },
     }
-    console.log("ici c bon")
-    fetch(`https://b1messenger.esdlyon.dev/api/private/conversation/${idUser}`, authorization)
+    let goodId=await testPrivateConversation(idUser)
+    fetch(`https://b1messenger.esdlyon.dev/api/private/conversation/${goodId[1]}`, authorization)
     .then(response => response.json())
     .then(data => {
         console.log("je suis dans le fetch")
         let conversation=data.privateMessages
         if(!(conversation===undefined)){
             conversation.forEach(element => {
-                if(element.author.id===idUser){
+                if(element.author.id===goodId[0]){
                     let divMessage=document.createElement("div");
                     divMessage.classList.add("divPrivateMessage")
                     let message=document.createElement("span");
