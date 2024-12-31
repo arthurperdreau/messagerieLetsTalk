@@ -66,7 +66,7 @@ body,html{
     display: none;
 }
 
-/*------------------------------- -------------------------------  */
+/*-------------------------------home Page-------------------------------  */
 .usernameBoxAccueil{
     display: flex;
     width: 30%;
@@ -89,4 +89,70 @@ body,html{
     border-radius: 50px;
     margin-left: 2vh;
     margin-right: 2vh;
+}
+
+/*-------------------------------chat Page-------------------------------  */
+
+.pageChat{
+    height: 80vh;
+    width: 100%;
+    display: none;
+}
+
+.boxChat{
+    display: flex;
+    flex-direction: column;
+    height: 65vh;
+}
+
+.inputChatBox{
+    display: flex;
+    height: 15vh;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.iconSend{
+    height: 4vh;
+    width: 4vh;
+    fill: #A238FF;
+    margin-left: 2vh;
+}
+.refreshButton{
+    border: none;
+    padding: 0.5vh;
+    background-color: #A238FF;
+    color: white;
+    border-radius: 10px;
+    margin-left: 2vh;
+}
+
+.divPrivateMessage{
+    display: flex;
+    align-items: center;
+    width: 50%;
+    height: auto;
+    background-color: white;
+    border-radius: 15px;
+    border:2px solid #8370E0;
+}
+
+.messageOfFriend{
+    font-size: 4vh;
+}
+
+.divMyMessage{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    width: 50%;
+    height: auto;
+    background-color: #8370E0;
+    border-radius: 15px;
+}
+
+.messageOfMe{
+    color: white;
+    font-size: 4vh;
 }

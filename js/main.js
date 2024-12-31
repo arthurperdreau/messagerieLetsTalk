@@ -12,7 +12,8 @@ inputRegister.value=""
 const inputLogin=document.querySelector(".inputLogin");
 inputLogin.value=""
 
-
+const pageChat=document.querySelector(".pageChat");
+let boxChat=document.querySelector(".boxChat");
 
 
 //-------------------------------functions-------------------------------
@@ -119,6 +120,44 @@ async function arrayAllUsersImage(){
         })
 }
 
+function displayMessages(idUser){
+    let authorization={
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+    }
+    console.log("ici c bon")
+    fetch(`https://b1messenger.esdlyon.dev/api/private/conversation/${idUser}`, authorization)
+    .then(response => response.json())
+    .then(data => {
+        console.log("je suis dans le fetch")
+        let conversation=data.privateMessages
+        if(!(conversation===undefined)){
+            conversation.forEach(element => {
+                if(element.author.id===idUser){
+                    let divMessage=document.createElement("div");
+                    divMessage.classList.add("divPrivateMessage")
+                    let message=document.createElement("span");
+                    message.classList.add("messageOfFriend");
+                    message.innerHTML=element.content;
+                    divMessage.appendChild(message);
+                    boxChat.appendChild(divMessage);
+                }else{
+                    let divMessage=document.createElement("div");
+                    divMessage.classList.add("divMyMessage");
+                    let message=document.createElement("span");
+                    message.classList.add("messageOfMe");
+                    message.innerHTML=element.content;
+                    divMessage.appendChild(message);
+                    boxChat.appendChild(divMessage);
+                }
+        })}
+    })
+
+}
+
 async function allConversations(){
     let arrayUsername= await arrayAllUsersUsername()
     let arrayUsersId=await arrayAllUsersId()
@@ -137,6 +176,11 @@ async function allConversations(){
         divUser.appendChild(username);
         divUser.setAttribute("id",arrayUsersId[i]);
         pageAccueil.appendChild(divUser)
+        divUser.addEventListener("click",() =>{
+            pageAccueil.style.display="none";
+            pageChat.style.display="flex";
+            displayMessages(arrayUsersId[i])
+        })
     }
 }
 //-------------------------------addEvent-------------------------------
