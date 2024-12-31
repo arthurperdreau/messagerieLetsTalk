@@ -103,6 +103,9 @@ body,html{
     display: flex;
     flex-direction: column;
     height: 65vh;
+    max-height: 65vh;
+    width: 50vh;
+    overflow-y: scroll;
 }
 
 .inputChatBox{
@@ -131,28 +134,51 @@ body,html{
 .divPrivateMessage{
     display: flex;
     align-items: center;
-    width: 50%;
+    width: auto;
     height: auto;
     background-color: white;
     border-radius: 15px;
     border:2px solid #8370E0;
+    padding-left: 1vh;
+    padding-right: 1vh;
+    margin-bottom: 1.5vh;
 }
 
 .messageOfFriend{
     font-size: 2vh;
+    width: auto;
 }
 
 .divMyMessage{
     display: flex;
-    justify-content: end;
     align-items: center;
-    width: 50%;
+    width: auto;
     height: auto;
     background-color: #8370E0;
     border-radius: 15px;
+    padding-left: 1vh;
+    padding-right: 1vh;
+    margin-bottom: 1.5vh;
 }
 
 .messageOfMe{
     color: white;
     font-size: 2vh;
+}
+
+.divResponse{
+    display: flex;
+    align-items: center;
+    width: auto;
+    height: auto;
+    background-color: white;
+    border-radius: 15px;
+    border:2px solid #8370E0;
+    margin-left: 5vh;
+    padding-left: 1vh;
+    margin-bottom: 1vh;
+}
+.author{
+    margin-right: 3vh;
+    color: black;
 }

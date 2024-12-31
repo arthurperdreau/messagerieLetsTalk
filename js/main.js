@@ -14,6 +14,7 @@ inputLogin.value=""
 
 const pageChat=document.querySelector(".pageChat");
 let boxChat=document.querySelector(".boxChat");
+const buttonBackToHome=document.querySelector(".buttonBackToHome");
 
 
 //-------------------------------functions-------------------------------
@@ -151,6 +152,9 @@ async function testPrivateConversation(idUser){
     }
     return goodCouple
 }
+function creationMessage(content,author){
+
+}
 async function displayMessages(idUser){
     let authorization={
         method: "GET",
@@ -160,6 +164,7 @@ async function displayMessages(idUser){
         },
     }
     let goodId=await testPrivateConversation(idUser)
+    if(!(goodId===undefined)){
     fetch(`https://b1messenger.esdlyon.dev/api/private/conversation/${goodId[1]}`, authorization)
     .then(response => response.json())
     .then(data => {
@@ -185,15 +190,74 @@ async function displayMessages(idUser){
                     boxChat.appendChild(divMessage);
                 }
         })}
-    })
+    })}
 
+}
+async function displayMessagesGeneral(){
+    let authorizationGeneral={
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+    }
+    fetch("https://b1messenger.esdlyon.dev/api/messages",authorizationGeneral)
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(element => {
+            let divMessageAll=document.createElement("div");
+            divMessageAll.classList.add("divPrivateMessage")
+            let authorAll=document.createElement("span");
+            authorAll.classList.add("author")
+            authorAll.innerHTML=element.author.username;
+            let messageAll=document.createElement("span");
+            messageAll.classList.add("messageOfFriend");
+            messageAll.innerHTML=element.content;
+            divMessageAll.appendChild(authorAll);
+            divMessageAll.appendChild(messageAll);
+            boxChat.appendChild(divMessageAll);
+            if(!(element.responses===undefined || element.responses===[])){
+                let responsesContent=element.responses
+                responsesContent.forEach(response => {
+                    let divMessageResponse=document.createElement("div");
+                    divMessageResponse.classList.add("divResponse")
+                    let authorResponse=document.createElement("span");
+                    authorResponse.classList.add("author")
+                    authorResponse.innerHTML=response.author.username;
+                    let messageAllResponse=document.createElement("span");
+                    messageAllResponse.classList.add("messageOfFriend");
+                    messageAllResponse.innerHTML=response.content;
+                    divMessageResponse.appendChild(authorResponse);
+                    divMessageResponse.appendChild(messageAllResponse);
+                    boxChat.appendChild(divMessageResponse);
+                })
+            }
+        })
+    })
 }
 
 async function allConversations(){
+
     let arrayUsername= await arrayAllUsersUsername()
     let arrayUsersId=await arrayAllUsersId()
     let arrayImage=await arrayAllUsersImage()
-    console.log("arrayUsersId",arrayUsersId)
+    //console.log("arrayUsersId",arrayUsersId)
+    let boxChatGeneral=document.createElement("div");
+    boxChatGeneral.classList.add("usernameBoxAccueil");
+    let imageChatGeneral=document.createElement("img");
+    imageChatGeneral.src="allProfilePicture.png"
+    imageChatGeneral.classList.add("imageUsernameBoxAccueil");
+    let textChatGeneral=document.createElement("span");
+    textChatGeneral.innerHTML="Général";
+    textChatGeneral.classList.add("textUsernameBoxAccueil");
+    boxChatGeneral.appendChild(imageChatGeneral);
+    boxChatGeneral.appendChild(textChatGeneral);
+    pageAccueil.appendChild(boxChatGeneral);
+    boxChatGeneral.addEventListener("click", ()=>{
+        pageAccueil.style.display="none";
+        pageChat.style.display="flex";
+        displayMessagesGeneral()
+    })
     for(let i=0; i<arrayUsersId.length; i++){
         let divUser=document.createElement("div");
         divUser.classList.add("usernameBoxAccueil");
