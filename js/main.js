@@ -345,3 +345,9 @@ loginBtn.addEventListener("click", () => {
             }
         })
 })
+
+buttonBackToHome.addEventListener("click",()=>{
+    boxChat.innerHTML=""
+    pageChat.style.display="none";
+    pageAccueil.style.display="flex";
+})

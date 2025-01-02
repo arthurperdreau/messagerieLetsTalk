@@ -195,3 +195,13 @@ body,html{
     margin-bottom: 1vh;
     background-color: #8370E0;
 }
+
+.buttonBackToHome{
+    border: none;
+    padding: 1vh;
+    color: #A238FF;
+    background-color: white;
+    font-weight: bold;
+    margin-left: 2vh;
+    font-size: 6vh;
+}
