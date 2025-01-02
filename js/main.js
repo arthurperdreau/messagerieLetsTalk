@@ -17,6 +17,9 @@ let boxChat=document.querySelector(".boxChat");
 const buttonBackToHome=document.querySelector(".buttonBackToHome");
 let userName=""
 
+const sendButton=document.querySelector(".buttonChatBtn");
+const refreshButton=document.querySelector(".refreshButton");
+
 
 //-------------------------------functions-------------------------------
 async function login(loginUsernameInput,loginPasswordInput) {
@@ -135,24 +138,30 @@ async function allPrivateConversation(){
     .then(response => response.json())
     .then(data => {
         data.forEach(element => {
-            arrayCoupleIdUserIdConversation.push([element.lastMessage.author.id,element.id])
+            arrayCoupleIdUserIdConversation.push([element.with.id,element.id])
         })
+        console.log("function allPrivateConv",arrayCoupleIdUserIdConversation)
         return arrayCoupleIdUserIdConversation
     })
 
 }
 async function testPrivateConversation(idUser){
     let arrayIdConversation=await allPrivateConversation()
-    console.log(arrayIdConversation)
+    console.log("arrayIdConversation",arrayIdConversation)
+    console.log("idUser",idUser)
     let goodCouple
     for(let i=0;i<arrayIdConversation.length;i++){
+        console.log("arrayIdConversation[i][0]",arrayIdConversation[i][0])
         if(arrayIdConversation[i][0]===idUser){
             goodCouple = arrayIdConversation[i]
             break
         }
     }
+    console.log("goodCouple",goodCouple)
     return goodCouple
 }
+
+
 
 async function displayMessages(idUser){
     let authorization={
@@ -163,11 +172,12 @@ async function displayMessages(idUser){
         },
     }
     let goodId=await testPrivateConversation(idUser)
+    console.log("goodId",goodId)
     if(!(goodId===undefined)){
     fetch(`https://b1messenger.esdlyon.dev/api/private/conversation/${goodId[1]}`, authorization)
     .then(response => response.json())
     .then(data => {
-        console.log("je suis dans le fetch")
+        //console.log("je suis dans le fetch")
         let conversation=data.privateMessages
         if(!(conversation===undefined)){
             conversation.forEach(element => {
@@ -293,6 +303,8 @@ async function allConversations(){
         divUser.addEventListener("click",() =>{
             pageAccueil.style.display="none";
             pageChat.style.display="flex";
+            sendButton.setAttribute("id",arrayUsersId[i]);
+            console.log("test id box accueil",arrayUsersId[i]);
             displayMessages(arrayUsersId[i])
         })
     }
@@ -350,4 +362,60 @@ buttonBackToHome.addEventListener("click",()=>{
     boxChat.innerHTML=""
     pageChat.style.display="none";
     pageAccueil.style.display="flex";
+})
+
+sendButton.addEventListener("click",()=>{
+    let inputChat=document.querySelector(".inputChat");
+    let textMessage=inputChat.value;
+    let params = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization":`Bearer ${token}`
+        },
+        body: JSON.stringify({
+            content:textMessage,
+        })
+    }
+    inputChat.value="";
+    fetch(`https://b1messenger.esdlyon.dev/api/private/message/${sendButton.id}`,params)
+    .then(response => response.json())
+    .then(data => {
+        console.log("data après l'envoie",data)
+        console.log("id sendButton",sendButton.id)
+        let authorization={
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+        }
+        fetch(`https://b1messenger.esdlyon.dev/api/private/conversation/${data.id}`, authorization)
+            .then(response => response.json())
+            .then(rep => {
+                //console.log("je suis dans le fetch")
+                boxChat.innerHTML=""
+                let conv=rep.privateMessages
+                if(!(conv===undefined)){
+                    conv.forEach(element => {
+                        if(element.author.id===data.with.id){
+                            let divMessages=document.createElement("div");
+                            divMessages.classList.add("divPrivateMessage")
+                            let message=document.createElement("span");
+                            message.classList.add("messageOfFriend");
+                            message.innerHTML=element.content;
+                            divMessages.appendChild(message);
+                            boxChat.appendChild(divMessages);
+                        }else{
+                            let divMessages=document.createElement("div");
+                            divMessages.classList.add("divMyMessage");
+                            let message=document.createElement("span");
+                            message.classList.add("messageOfMe");
+                            message.innerHTML=element.content;
+                            divMessages.appendChild(message);
+                            boxChat.appendChild(divMessages);
+                        }
+                    })}})
+
+    })
 })

@@ -120,6 +120,10 @@ body,html{
     height: 4vh;
     width: 4vh;
     fill: #A238FF;
+}
+.buttonChatBtn{
+    background-color: white;
+    border: none;
     margin-left: 2vh;
 }
 .refreshButton{
@@ -205,3 +209,5 @@ body,html{
     margin-left: 2vh;
     font-size: 6vh;
 }
+
+
