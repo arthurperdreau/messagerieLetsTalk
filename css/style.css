@@ -147,6 +147,7 @@ body,html{
 .messageOfFriend{
     font-size: 2vh;
     width: auto;
+    margin-left: 1vh;
 }
 
 .divMyMessage{
@@ -164,6 +165,7 @@ body,html{
 .messageOfMe{
     color: white;
     font-size: 2vh;
+    margin-left: 1vh;
 }
 
 .divResponse{
@@ -179,6 +181,17 @@ body,html{
     margin-bottom: 1vh;
 }
 .author{
-    margin-right: 3vh;
+    margin-right: 2vh;
     color: black;
+}
+.divResponseOfMe{
+    display: flex;
+    align-items: center;
+    width: auto;
+    height: auto;
+    border-radius: 15px;
+    margin-left: 5vh;
+    padding-left: 1vh;
+    margin-bottom: 1vh;
+    background-color: #8370E0;
 }

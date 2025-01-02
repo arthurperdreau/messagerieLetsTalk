@@ -15,6 +15,7 @@ inputLogin.value=""
 const pageChat=document.querySelector(".pageChat");
 let boxChat=document.querySelector(".boxChat");
 const buttonBackToHome=document.querySelector(".buttonBackToHome");
+let userName=""
 
 
 //-------------------------------functions-------------------------------
@@ -152,9 +153,7 @@ async function testPrivateConversation(idUser){
     }
     return goodCouple
 }
-function creationMessage(content,author){
 
-}
 async function displayMessages(idUser){
     let authorization={
         method: "GET",
@@ -205,6 +204,15 @@ async function displayMessagesGeneral(){
     .then(response => response.json())
     .then(data => {
         data.forEach(element => {
+            if(element.author.username===userName){
+                let divMessageAll=document.createElement("div");
+                divMessageAll.classList.add("divMyMessage");
+                let messageAll=document.createElement("span");
+                messageAll.classList.add("messageOfMe");
+                messageAll.innerHTML=element.content;
+                divMessageAll.appendChild(messageAll);
+                boxChat.appendChild(divMessageAll);
+            }else{
             let divMessageAll=document.createElement("div");
             divMessageAll.classList.add("divPrivateMessage")
             let authorAll=document.createElement("span");
@@ -215,10 +223,11 @@ async function displayMessagesGeneral(){
             messageAll.innerHTML=element.content;
             divMessageAll.appendChild(authorAll);
             divMessageAll.appendChild(messageAll);
-            boxChat.appendChild(divMessageAll);
+            boxChat.appendChild(divMessageAll);}
             if(!(element.responses===undefined || element.responses===[])){
                 let responsesContent=element.responses
                 responsesContent.forEach(response => {
+                    if(!(response.author.username===userName)){
                     let divMessageResponse=document.createElement("div");
                     divMessageResponse.classList.add("divResponse")
                     let authorResponse=document.createElement("span");
@@ -229,7 +238,17 @@ async function displayMessagesGeneral(){
                     messageAllResponse.innerHTML=response.content;
                     divMessageResponse.appendChild(authorResponse);
                     divMessageResponse.appendChild(messageAllResponse);
-                    boxChat.appendChild(divMessageResponse);
+                    boxChat.appendChild(divMessageResponse);}
+                    else{
+                        let divMessageResponseMe=document.createElement("div");
+                        divMessageResponseMe.classList.add("divResponseOfMe")
+                        let authorResponse=document.createElement("span");
+                        let messageAllResponse=document.createElement("span");
+                        messageAllResponse.classList.add("messageOfMe");
+                        messageAllResponse.innerHTML=response.content;
+                        divMessageResponseMe.appendChild(messageAllResponse);
+                        boxChat.appendChild(divMessageResponseMe);
+                    }
                 })
             }
         })
@@ -245,7 +264,7 @@ async function allConversations(){
     let boxChatGeneral=document.createElement("div");
     boxChatGeneral.classList.add("usernameBoxAccueil");
     let imageChatGeneral=document.createElement("img");
-    imageChatGeneral.src="allProfilePicture.png"
+    imageChatGeneral.src="images/allProfilePicture.png"
     imageChatGeneral.classList.add("imageUsernameBoxAccueil");
     let textChatGeneral=document.createElement("span");
     textChatGeneral.innerHTML="Général";
@@ -311,6 +330,7 @@ signupBtn.addEventListener("click", () => {
 
 loginBtn.addEventListener("click", () => {
     let loginUsernameInput = document.querySelector(".loginUsernameInput");
+    userName = loginUsernameInput.value;
     let loginPasswordInput = document.querySelector(".loginPasswordInput");
     login(loginUsernameInput,loginPasswordInput)
         .then((response) => {
