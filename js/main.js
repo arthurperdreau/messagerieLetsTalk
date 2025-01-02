@@ -140,24 +140,19 @@ async function allPrivateConversation(){
         data.forEach(element => {
             arrayCoupleIdUserIdConversation.push([element.with.id,element.id])
         })
-        console.log("function allPrivateConv",arrayCoupleIdUserIdConversation)
         return arrayCoupleIdUserIdConversation
     })
 
 }
 async function testPrivateConversation(idUser){
     let arrayIdConversation=await allPrivateConversation()
-    console.log("arrayIdConversation",arrayIdConversation)
-    console.log("idUser",idUser)
     let goodCouple
     for(let i=0;i<arrayIdConversation.length;i++){
-        console.log("arrayIdConversation[i][0]",arrayIdConversation[i][0])
         if(arrayIdConversation[i][0]===idUser){
             goodCouple = arrayIdConversation[i]
             break
         }
     }
-    console.log("goodCouple",goodCouple)
     return goodCouple
 }
 
@@ -172,12 +167,10 @@ async function displayMessages(idUser){
         },
     }
     let goodId=await testPrivateConversation(idUser)
-    console.log("goodId",goodId)
     if(!(goodId===undefined)){
     fetch(`https://b1messenger.esdlyon.dev/api/private/conversation/${goodId[1]}`, authorization)
     .then(response => response.json())
     .then(data => {
-        //console.log("je suis dans le fetch")
         let conversation=data.privateMessages
         if(!(conversation===undefined)){
             conversation.forEach(element => {
@@ -306,7 +299,6 @@ async function allConversations(){
             pageAccueil.style.display="none";
             pageChat.style.display="flex";
             sendButton.setAttribute("id",arrayUsersId[i]);
-            console.log("test id box accueil",arrayUsersId[i]);
             displayMessages(arrayUsersId[i])
         })
     }
@@ -384,8 +376,8 @@ sendButton.addEventListener("click",()=>{
     fetch(`https://b1messenger.esdlyon.dev/api/private/message/${sendButton.id}`,params)
     .then(response => response.json())
     .then(data => {
-        console.log("data après l'envoie",data)
-        console.log("id sendButton",sendButton.id)
+        //console.log("data après l'envoie",data)
+        //console.log("id sendButton",sendButton.id)
         let authorization={
             method: "GET",
             headers: {
@@ -427,4 +419,8 @@ sendButton.addEventListener("click",()=>{
             displayMessagesGeneral()
         })
     }
+})
+
+refreshButton.addEventListener("click", ()=>{
+    displayMessages(sendButton.id)
 })
