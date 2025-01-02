@@ -22,6 +22,7 @@ const refreshButton=document.querySelector(".refreshButton");
 
 
 //-------------------------------functions-------------------------------
+//-->log you in the app
 async function login(loginUsernameInput,loginPasswordInput) {
     let paramsLogin={
         method: "POST",
@@ -40,13 +41,14 @@ async function login(loginUsernameInput,loginPasswordInput) {
         })
 }
 
+//-->test if the token is valid
 function testToken(token) {
     if (!(token===null||token===undefined)) {
         return true
     }
 }
 
-
+//--> functions to have all the ids, usernames and the profiles pictures of all the users
 async function arrayAllUsersUsername(){
     let paramsAllUsersUsername={
         method: "GET",
@@ -125,6 +127,7 @@ async function arrayAllUsersImage(){
         })
 }
 
+//-->useful to have all the id of the privates conversations with the id of the author
 async function allPrivateConversation(){
     let arrayCoupleIdUserIdConversation=[];
     let paramsAllConversation={
@@ -144,6 +147,8 @@ async function allPrivateConversation(){
     })
 
 }
+
+//-->useful to have the id of a private conversation with the id of the interlocutor
 async function testPrivateConversation(idUser){
     let arrayIdConversation=await allPrivateConversation()
     let goodCouple
@@ -156,8 +161,7 @@ async function testPrivateConversation(idUser){
     return goodCouple
 }
 
-
-
+//-->display private message in the different privates conversations sections
 async function displayMessages(idUser){
     let authorization={
         method: "GET",
@@ -195,6 +199,8 @@ async function displayMessages(idUser){
     })}
 
 }
+
+//-->display all the message in the general section
 async function displayMessagesGeneral(){
     let authorizationGeneral={
         method: "GET",
@@ -258,6 +264,7 @@ async function displayMessagesGeneral(){
     })
 }
 
+//-->display all the conversations
 async function allConversations(){
 
     let arrayUsername= await arrayAllUsersUsername()
@@ -303,8 +310,9 @@ async function allConversations(){
         })
     }
 }
-//-------------------------------addEvent-------------------------------
 
+
+//-------------------------------addEvent-------------------------------
 //-->display loginBox
 alreadyHaveAccount.addEventListener("click", () => {
     signupBox.style.display = "none";
@@ -334,6 +342,7 @@ signupBtn.addEventListener("click", () => {
     })
 })
 
+//-->Login
 loginBtn.addEventListener("click", () => {
     let loginUsernameInput = document.querySelector(".loginUsernameInput");
     userName = loginUsernameInput.value;
@@ -352,12 +361,14 @@ loginBtn.addEventListener("click", () => {
         })
 })
 
+//-->come back to the list of the conversations
 buttonBackToHome.addEventListener("click",()=>{
     boxChat.innerHTML=""
     pageChat.style.display="none";
     pageAccueil.style.display="flex";
 })
 
+//-->send message
 sendButton.addEventListener("click",()=>{
     let inputChat=document.querySelector(".inputChat");
     let textMessage=inputChat.value;
@@ -421,6 +432,7 @@ sendButton.addEventListener("click",()=>{
     }
 })
 
+//-->refresh a conversation with a button
 refreshButton.addEventListener("click", ()=>{
     displayMessages(sendButton.id)
 })
