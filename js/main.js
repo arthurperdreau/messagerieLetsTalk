@@ -279,12 +279,14 @@ async function allConversations(){
     let textChatGeneral=document.createElement("span");
     textChatGeneral.innerHTML="Général";
     textChatGeneral.classList.add("textUsernameBoxAccueil");
+    boxChatGeneral.setAttribute("id","general");
     boxChatGeneral.appendChild(imageChatGeneral);
     boxChatGeneral.appendChild(textChatGeneral);
     pageAccueil.appendChild(boxChatGeneral);
     boxChatGeneral.addEventListener("click", ()=>{
         pageAccueil.style.display="none";
         pageChat.style.display="flex";
+        sendButton.setAttribute("id","general");
         displayMessagesGeneral()
     })
     for(let i=0; i<arrayUsersId.length; i++){
@@ -378,6 +380,7 @@ sendButton.addEventListener("click",()=>{
         })
     }
     inputChat.value="";
+    if(!(sendButton.id==="general")){
     fetch(`https://b1messenger.esdlyon.dev/api/private/message/${sendButton.id}`,params)
     .then(response => response.json())
     .then(data => {
@@ -417,5 +420,11 @@ sendButton.addEventListener("click",()=>{
                         }
                     })}})
 
-    })
+    })}else{
+        fetch("https://b1messenger.esdlyon.dev/api/messages/new",params)
+        .then(response => response.json())
+        .then(data => {
+            displayMessagesGeneral()
+        })
+    }
 })
