@@ -170,32 +170,36 @@ async function displayMessages(idUser){
             "Authorization": `Bearer ${token}`
         },
     }
+    console.log("idUser",idUser)
     let goodId=await testPrivateConversation(idUser)
+    console.log("goodID",goodId)
     if(!(goodId===undefined)){
-    fetch(`https://b1messenger.esdlyon.dev/api/private/conversation/${goodId[1]}`, authorization)
-    .then(response => response.json())
-    .then(data => {
-        let conversation=data.privateMessages
-        if(!(conversation===undefined)){
-            conversation.forEach(element => {
-                if(element.author.id===goodId[0]){
-                    let divMessage=document.createElement("div");
-                    divMessage.classList.add("divPrivateMessage")
-                    let message=document.createElement("span");
-                    message.classList.add("messageOfFriend");
-                    message.innerHTML=element.content;
-                    divMessage.appendChild(message);
-                    boxChat.appendChild(divMessage);
-                }else{
-                    let divMessage=document.createElement("div");
-                    divMessage.classList.add("divMyMessage");
-                    let message=document.createElement("span");
-                    message.classList.add("messageOfMe");
-                    message.innerHTML=element.content;
-                    divMessage.appendChild(message);
-                    boxChat.appendChild(divMessage);
-                }
-        })}
+        fetch(`https://b1messenger.esdlyon.dev/api/private/conversation/${goodId[1]}`, authorization)
+        .then(response => response.json())
+        .then(data => {
+            console.log("displayMessage")
+            let conversation=data.privateMessages
+            console.log("conversation",conversation)
+            if(!(conversation===undefined)){
+                conversation.forEach(element => {
+                    if(element.author.id===goodId[0]){
+                        let divMessage=document.createElement("div");
+                        divMessage.classList.add("divPrivateMessage")
+                        let message=document.createElement("span");
+                        message.classList.add("messageOfFriend");
+                        message.innerHTML=element.content;
+                        divMessage.appendChild(message);
+                        boxChat.appendChild(divMessage);
+                    }else{
+                        let divMessage=document.createElement("div");
+                        divMessage.classList.add("divMyMessage");
+                        let message=document.createElement("span");
+                        message.classList.add("messageOfMe");
+                        message.innerHTML=element.content;
+                        divMessage.appendChild(message);
+                        boxChat.appendChild(divMessage);
+                    }
+            })}
     })}
 
 }
@@ -427,6 +431,7 @@ sendButton.addEventListener("click",()=>{
         fetch("https://b1messenger.esdlyon.dev/api/messages/new",params)
         .then(response => response.json())
         .then(data => {
+            boxChat.innerHTML=""
             displayMessagesGeneral()
         })
     }
@@ -434,5 +439,16 @@ sendButton.addEventListener("click",()=>{
 
 //-->refresh a conversation with a button
 refreshButton.addEventListener("click", ()=>{
-    displayMessages(sendButton.id)
+    if(!(sendButton.id==="general")){
+        console.log(sendButton.id);
+        console.log("refresh")
+        boxChat.innerHTML=""
+        displayMessages(sendButton.id)
+        console.log("refresh après")
+    }else{
+        console.log("refresh general")
+        boxChat.innerHTML=""
+        displayMessagesGeneral()
+    }
+
 })
