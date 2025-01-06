@@ -116,6 +116,41 @@ body,html{
     width: 100%;
 }
 
+.inputAddImage{
+
+}
+input[type=file]::file-selector-button {
+    border: none;
+    background-color: #A238FF;
+    color: white;
+    padding: 0.5vh;
+    border-radius: 10px;
+    margin-left: 2vh;
+    font-weight: bold;
+}
+
+
+.editButton{
+    background-color: #A238FF;
+    color: white;
+    padding: 1vh;
+    border-radius: 10px;
+    margin-left: 2vh;
+    border: none;
+}
+
+.editButton{
+    background-color: #A238FF;
+    color: white;
+    padding: 1vh;
+    border-radius: 10px;
+    margin-left: 2vh;
+}
+
+button:disabled {
+    background-color: lightgray;
+    color: white;
+}
 .iconSend{
     height: 4vh;
     width: 4vh;
@@ -124,7 +159,6 @@ body,html{
 .buttonChatBtn{
     background-color: white;
     border: none;
-    margin-left: 2vh;
 }
 .refreshButton{
     border: none;
