@@ -91,6 +91,11 @@ body,html{
     margin-right: 2vh;
 }
 
+.peopleTitle{
+    color: #8370E0;
+    font-size: 3vh;
+}
+
 /*-------------------------------chat Page-------------------------------  */
 
 .pageChat{
@@ -114,6 +119,11 @@ body,html{
     justify-content: center;
     align-items: center;
     width: 100%;
+}
+
+.imageMessage{
+    height: 4vh;
+    width: 4vh;
 }
 
 .inputAddImage{

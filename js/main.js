@@ -16,6 +16,7 @@ const pageChat=document.querySelector(".pageChat");
 let boxChat=document.querySelector(".boxChat");
 const buttonBackToHome=document.querySelector(".buttonBackToHome");
 let userName=""
+const namePeople=document.querySelector(".namePeople");
 
 const sendButton=document.querySelector(".buttonChatBtn");
 const refreshButton=document.querySelector(".refreshButton");
@@ -195,7 +196,17 @@ async function displayMessages(idUser){
                         message.classList.add("messageOfFriend");
                         message.innerHTML=element.content;
                         divMessage.appendChild(message);
+                        divMessage.setAttribute("id",element.id);
                         boxChat.appendChild(divMessage);
+                        if(!(element.images===[])){
+                            let images=element.images;
+                            images.forEach(image=>{
+                                let img=document.createElement("img");
+                                img.classList.add("imageMessage");
+                                img.src=image.url
+                                divMessage.appendChild(img);
+                            })
+                        }
                     }else{
                         let divMessage=document.createElement("div");
                         divMessage.classList.add("divMyMessage");
@@ -203,7 +214,24 @@ async function displayMessages(idUser){
                         message.classList.add("messageOfMe");
                         message.innerHTML=element.content;
                         divMessage.appendChild(message);
+                        divMessage.setAttribute("id",element.id);
                         boxChat.appendChild(divMessage);
+                        if(!(element.images===[])){
+                            let images=element.images;
+                            images.forEach(image=>{
+                                let img=document.createElement("img");
+                                img.classList.add("imageMessage");
+                                img.src=image.url
+                                divMessage.appendChild(img);
+                            })
+                        }
+                        divMessage.addEventListener("click",()=>{
+                            let idMessage=divMessage.getAttribute("id")
+                            editButton.setAttribute("id",idMessage);
+                            editButton.removeAttribute("disabled");
+                            let inputChat=document.querySelector(".inputChat");
+                            inputChat.value="";
+                        })
                     }
             })}
     })}
@@ -225,10 +253,6 @@ async function editMessage(idMessage){
     if(sendButton.id==="general"){
         boxChat.innerHTML=""
         displayMessagesGeneral()
-        editButton.setAttribute("disabled","disabled");
-    }else{
-        boxChat.innerHTML=""
-        displayMessages(sendButton.id)
         editButton.setAttribute("disabled","disabled");
     }
 }
@@ -256,12 +280,22 @@ async function displayMessagesGeneral(){
                 divMessageAll.appendChild(messageAll);
                 divMessageAll.setAttribute("id",element.id);
                 boxChat.appendChild(divMessageAll);
+                if(!(element.images===[]|| element.images===undefined)){
+                    let images=element.images;
+                    images.forEach(image=>{
+                        let img=document.createElement("img");
+                        img.classList.add("imageMessage");
+                        img.src=image.url
+                        divMessageAll.appendChild(img);
+                    })
+                }
                 divMessageAll.addEventListener("click",()=>{
                     let idMessage=divMessageAll.getAttribute("id")
                     editButton.setAttribute("id",idMessage);
                     editButton.removeAttribute("disabled");
                     let inputChat=document.querySelector(".inputChat");
                     inputChat.value="";
+
                 })
 
             }else{
@@ -277,6 +311,15 @@ async function displayMessagesGeneral(){
             divMessageAll.appendChild(authorAll);
             divMessageAll.appendChild(messageAll);
             boxChat.appendChild(divMessageAll);
+            if(!(element.images===[] || element.images===undefined)){
+                let image=element.images;
+                image.forEach(image=>{
+                    let img=document.createElement("img");
+                    img.classList.add("imageMessage");
+                    img.src=image.url
+                    divMessageAll.appendChild(img);
+                })
+            }
             }
 
             if(!(element.responses===undefined || element.responses===[])){
@@ -294,7 +337,17 @@ async function displayMessagesGeneral(){
                     divMessageResponse.appendChild(authorResponse);
                     divMessageResponse.setAttribute("id",response.id);
                     divMessageResponse.appendChild(messageAllResponse);
-                    boxChat.appendChild(divMessageResponse);}
+                    boxChat.appendChild(divMessageResponse);
+                        if(!(element.images===[]|| element.images===undefined)){
+                            let images=element.images;
+                            images.forEach(image=>{
+                                let img=document.createElement("img");
+                                img.classList.add("imageMessage");
+                                img.src=image.url
+                                divMessageResponse.appendChild(img);
+                            })
+                        }
+                    }
                     else{
                         let divMessageResponseMe=document.createElement("div");
                         divMessageResponseMe.classList.add("divResponseOfMe")
@@ -311,6 +364,15 @@ async function displayMessagesGeneral(){
                             inputChat.value="";
                         })
                         boxChat.appendChild(divMessageResponseMe);
+                        if(!(element.images===[] || element.images===undefined)){
+                            let images=element.images;
+                            images.forEach(image=>{
+                                let img=document.createElement("img");
+                                img.classList.add("imageMessage");
+                                img.src=image.url
+                                divMessageResponseMe.appendChild(img);
+                            })
+                        }
                     }
                 })
             }
@@ -342,6 +404,8 @@ async function allConversations(){
         pageChat.style.display="flex";
         sendButton.setAttribute("id","general");
         displayMessagesGeneral()
+        namePeople.textContent="Général"
+
     })
     for(let i=0; i<arrayUsersId.length; i++){
         let divUser=document.createElement("div");
@@ -363,6 +427,7 @@ async function allConversations(){
             //console.log("sendButton.id allConv",sendButton.id);
             //console.log("arrayUserId[i] allConv",arrayUsersId[i]);
             displayMessages(arrayUsersId[i])
+            namePeople.textContent=arrayUsername[i]
         })
     }
 }
@@ -422,6 +487,7 @@ buttonBackToHome.addEventListener("click",()=>{
     boxChat.innerHTML=""
     pageChat.style.display="none";
     pageAccueil.style.display="flex";
+    namePeople.textContent=""
 })
 
 //-->send message
