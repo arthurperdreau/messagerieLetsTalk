@@ -311,6 +311,17 @@ async function displayMessagesGeneral(){
                     let idMessage=divMessageAll.id;
                     deleteMessage(idMessage);
                 })
+
+                //-->button respond
+                let responseButton=document.createElement("button");
+                let inputChat=document.querySelector(".inputChat");
+                responseButton.classList.add("buttonResponse");
+                responseButton.innerHTML=`<svg class="svgResponse" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M205 34.8c11.5 5.1 19 16.6 19 29.2l0 64 112 0c97.2 0 176 78.8 176 176c0 113.3-81.5 163.9-100.2 174.1c-2.5 1.4-5.3 1.9-8.1 1.9c-10.9 0-19.7-8.9-19.7-19.7c0-7.5 4.3-14.4 9.8-19.5c9.4-8.8 22.2-26.4 22.2-56.7c0-53-43-96-96-96l-96 0 0 64c0 12.6-7.4 24.1-19 29.2s-25 3-34.4-5.4l-160-144C3.9 225.7 0 217.1 0 208s3.9-17.7 10.6-23.8l160-144c9.4-8.5 22.9-10.6 34.4-5.4z"/></svg>`
+                divMessageAll.appendChild(responseButton)
+                responseButton.addEventListener("click",()=>{
+                    inputChat.classList.add("responseInput");
+                    inputChat.id=divMessageAll.id
+                })
             }else{
             let divMessageAll=document.createElement("div");
             divMessageAll.setAttribute("id",element.id);
@@ -333,6 +344,15 @@ async function displayMessagesGeneral(){
                     divMessageAll.appendChild(img);
                 })
             }
+            let responseButton1=document.createElement("button");
+            let inputChat=document.querySelector(".inputChat");
+            responseButton1.classList.add("buttonResponse");
+            responseButton1.innerHTML=`<svg class="svgResponse" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M205 34.8c11.5 5.1 19 16.6 19 29.2l0 64 112 0c97.2 0 176 78.8 176 176c0 113.3-81.5 163.9-100.2 174.1c-2.5 1.4-5.3 1.9-8.1 1.9c-10.9 0-19.7-8.9-19.7-19.7c0-7.5 4.3-14.4 9.8-19.5c9.4-8.8 22.2-26.4 22.2-56.7c0-53-43-96-96-96l-96 0 0 64c0 12.6-7.4 24.1-19 29.2s-25 3-34.4-5.4l-160-144C3.9 225.7 0 217.1 0 208s3.9-17.7 10.6-23.8l160-144c9.4-8.5 22.9-10.6 34.4-5.4z"/></svg>`
+            divMessageAll.appendChild(responseButton1)
+            responseButton1.addEventListener("click",()=>{
+                inputChat.classList.add("responseInput");
+                inputChat.id=divMessageAll.id
+            })
             }
 
             if(!(element.responses===undefined || element.responses===[])){
@@ -360,6 +380,7 @@ async function displayMessagesGeneral(){
                                 divMessageResponse.appendChild(img);
                             })
                         }
+
                     }
                     else{
                         let divMessageResponseMe=document.createElement("div");
@@ -369,13 +390,6 @@ async function displayMessagesGeneral(){
                         messageAllResponse.innerHTML=response.content;
                         divMessageResponseMe.appendChild(messageAllResponse);
                         divMessageResponseMe.setAttribute("id",response.id);
-                        divMessageResponseMe.addEventListener("click",()=>{
-                            let idMessage=divMessageResponseMe.getAttribute("id")
-                            editButton.setAttribute("id",idMessage);
-                            editButton.removeAttribute("disabled");
-                            let inputChat=document.querySelector(".inputChat");
-                            inputChat.value="";
-                        })
                         boxChat.appendChild(divMessageResponseMe);
                         if(!(element.images===[] || element.images===undefined)){
                             let images=element.images;
@@ -386,6 +400,7 @@ async function displayMessagesGeneral(){
                                 divMessageResponseMe.appendChild(img);
                             })
                         }
+
                     }
                 })
             }
@@ -458,6 +473,32 @@ async function deleteMessage(idMessage){
     .then(json => {
         boxChat.innerHTML=""
         displayMessagesGeneral()
+    })
+}
+
+async function sendResponse(idMessage){
+    let inputChat=document.querySelector(".inputChat");
+
+    let params = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization":`Bearer ${token}`
+        },
+        body: JSON.stringify({
+            content:inputChat.value,
+        })
+    }
+    console.log(inputChat.value)
+    console.log("idMessage",idMessage)
+    await fetch(`https://b1messenger.esdlyon.dev/api/responses/${idMessage}/new`,params)
+    .then(res => res.json())
+    .then(json => {
+        console.log(json);
+        boxChat.innerHTML=""
+        displayMessagesGeneral()
+        console.log("repppppppppppppppppppppppppp")
+        inputChat.classList.remove("responseInput");
     })
 }
 
@@ -538,7 +579,6 @@ sendButton.addEventListener("click",()=>{
             content:textMessage,
         })
     }
-    inputChat.value="";
     if(!(sendButton.id==="general")){
         fetch(`https://b1messenger.esdlyon.dev/api/private/message/${sendButton.id}`,params)
             .then(response => response.json())
@@ -556,6 +596,7 @@ sendButton.addEventListener("click",()=>{
                     .then(response => response.json())
                     .then(rep => {
                         //console.log("je suis dans le fetch")
+                        inputChat.value="";
                         boxChat.innerHTML=""
                         let conv=rep.privateMessages
                         if(!(conv===undefined)){
@@ -579,13 +620,18 @@ sendButton.addEventListener("click",()=>{
                                 }
                             })}})
     })}else{
+        if(!(inputChat.classList.contains("responseInput"))){
         console.log(params)
         fetch("https://b1messenger.esdlyon.dev/api/messages/new",params)
             .then(response => response.json())
             .then(data => {
                 boxChat.innerHTML=""
+                inputChat.value="";
                 displayMessagesGeneral()
-            })
+            })}else{
+            sendResponse(inputChat.id)
+            inputChat.value="";
+        }
         }
 })
 

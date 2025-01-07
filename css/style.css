@@ -172,11 +172,28 @@ input[type=file]::file-selector-button {
     fill: #e3a9a9;
 }
 
-
-
 .buttonDelete{
     border: none;
     background-color: transparent;
+}
+
+.buttonResponse{
+    border: none;
+    background-color: transparent;
+}
+
+.svgResponse{
+    height: 2vh;
+    width: 2vh;
+    background-color: transparent;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    margin-right: 1vh;
+    fill: #88a595;
+}
+
+.responseInput{
+    border: 1px solid #88a595;
 }
 
 button:disabled {
