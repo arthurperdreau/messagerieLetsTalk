@@ -322,6 +322,35 @@ async function displayMessagesGeneral(){
                     inputChat.classList.add("responseInput");
                     inputChat.id=divMessageAll.id
                 })
+
+                //-->réactions
+                if(!(element.reactions===[])) {
+                    let allReactions=element.reactions
+                    let reactionsBox = document.createElement("div");
+                    reactionsBox.classList.add("reactionsBox");
+                    allReactions.forEach(reaction=>{
+                        let reactionSmiley=document.createElement("span");
+                        switch(reaction.type){
+                            case "smile":
+                                reactionSmiley.innerHTML="🙂"
+                                break;
+                            case "happy":
+                                reactionSmiley.innerHTML="😃"
+                                break;
+                            case "sadd":
+                                reactionSmiley.innerHTML="😭"
+                                break;
+                            case "cryy":
+                                reactionSmiley.innerHTML="😢"
+                                break;
+                            case "vomi":
+                                reactionSmiley.innerHTML="🤢"
+                                break;
+                        }
+                        reactionsBox.appendChild(reactionSmiley);
+                        divMessageAll.appendChild(reactionSmiley);
+                    })
+                }
             }else{
             let divMessageAll=document.createElement("div");
             divMessageAll.setAttribute("id",element.id);
@@ -353,6 +382,34 @@ async function displayMessagesGeneral(){
                 inputChat.classList.add("responseInput");
                 inputChat.id=divMessageAll.id
             })
+                if(!(element.reactions===[])) {
+                    let allReactions=element.reactions
+
+                    let reactionsBox = document.createElement("div");
+                    reactionsBox.classList.add("reactionsBox");
+                    allReactions.forEach(reaction=>{
+                        let reactionSmiley1=document.createElement("span");
+                        switch(reaction.type){
+                            case "smile":
+                                reactionSmiley1.innerHTML="🙂"
+                                break;
+                            case "happy":
+                                reactionSmiley1.innerHTML="😃"
+                                break;
+                            case "sadd":
+                                reactionSmiley1.innerHTML="😭"
+                                break;
+                            case "cryy":
+                                reactionSmiley1.innerHTML="😢"
+                                break;
+                            case "vomi":
+                                reactionSmiley1.innerHTML="🤢"
+                                break;
+                        }
+                        reactionsBox.appendChild(reactionSmiley1);
+                        divMessageAll.appendChild(reactionSmiley1);
+                    })
+                }
             }
 
             if(!(element.responses===undefined || element.responses===[])){
@@ -634,7 +691,6 @@ sendButton.addEventListener("click",()=>{
         }
         }
 })
-
 //-->refresh a conversation with a button
 refreshButton.addEventListener("click", ()=>{
     if(!(sendButton.id==="general")){

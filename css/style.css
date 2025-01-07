@@ -283,6 +283,11 @@ button:disabled {
     background-color: #8370E0;
 }
 
+.reactionsBox{
+    width: 100%;
+    display: flex;
+}
+
 .buttonBackToHome{
     border: none;
     padding: 1vh;
