@@ -126,6 +126,19 @@ body,html{
     width: 4vh;
 }
 
+.svgEdit{
+    height: 2vh;
+    width: 2vh;
+    background-color: transparent;
+    margin: 1vh;
+    fill: #bcf6fd;
+}
+
+.buttonEdit{
+    border: none;
+    background-color: transparent;
+}
+
 .inputAddImage{
 
 }
@@ -149,12 +162,21 @@ input[type=file]::file-selector-button {
     border: none;
 }
 
-.editButton{
-    background-color: #A238FF;
-    color: white;
-    padding: 1vh;
-    border-radius: 10px;
-    margin-left: 2vh;
+.svgTrash{
+    height: 2vh;
+    width: 2vh;
+    background-color: transparent;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    margin-right: 1vh;
+    fill: #e3a9a9;
+}
+
+
+
+.buttonDelete{
+    border: none;
+    background-color: transparent;
 }
 
 button:disabled {
@@ -253,5 +275,92 @@ button:disabled {
     margin-left: 2vh;
     font-size: 6vh;
 }
+/*-------------------------------Modal-------------------------------  */
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    justify-content: center;
+    align-items: center;
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    margin:0;
+    padding: 0;
+    width: auto;
+    height: auto;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    border: none;
+    width: 100%;
+    margin:0;
+    padding: 0;
+    height: 30vh;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.buttonEditBtn {
+    color: white;
+    float: right;
+    font-size: 2.5vh;
+    font-weight: bold;
+    background-color: #8370E0;
+    border: none;
+    border-radius: 15px;
+    padding: 1vh;
+}
+
+.buttonEditBtn:hover,
+.buttonEditBtn:focus {
+    color: #A238FF;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: white;
+    border:solid #A238FF 2px;
+}
+
+.modal-header {
+    margin:0;
+    padding: 0;
+    width: 50vh;
+    border: none;
+    background-color: #ffffff;
+    color: #8370E0;
+    font-weight: bold;
+    font-size: 4vh;
+}
 
 
+.modal-footer {
+    margin:0;
+    padding: 0;
+    border: none;
+    width: 50vh;
+
+}
