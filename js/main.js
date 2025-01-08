@@ -740,11 +740,7 @@ buttonBackToHome.addEventListener("click",()=>{
 
 //-->send message
 sendButton.addEventListener("click",()=>{
-    let inputAddImage=document.querySelector(".inputAddImage");
-    //console.log(inputAddImage.value)
-    if((inputAddImage.value==="")){
 
-    }
 
     let inputChat=document.querySelector(".inputChat");
     let textMessage=inputChat.value;
@@ -894,6 +890,7 @@ sendButton.addEventListener("click",()=>{
                 boxChat.innerHTML=""
                 inputChat.value="";
                 displayMessagesGeneral()
+                console.log("c envoyé");
             })}else{
             sendResponse(inputChat.id)
             inputChat.value="";
