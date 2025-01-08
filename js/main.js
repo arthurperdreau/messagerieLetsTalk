@@ -206,31 +206,24 @@ async function displayMessages(idUser){
                                 divMessage.appendChild(img);
                             })
                         }
-                    }else{
-                        let divMessage=document.createElement("div");
+                    }else {
+                        let divMessage = document.createElement("div");
                         divMessage.classList.add("divMyMessage");
-                        let message=document.createElement("span");
+                        let message = document.createElement("span");
                         message.classList.add("messageOfMe");
-                        message.innerHTML=element.content;
+                        message.innerHTML = element.content;
                         divMessage.appendChild(message);
-                        divMessage.setAttribute("id",element.id);
+                        divMessage.setAttribute("id", element.id);
                         boxChat.appendChild(divMessage);
-                        if(!(element.images===[])){
-                            let images=element.images;
-                            images.forEach(image=>{
-                                let img=document.createElement("img");
+                        if (!(element.images === [])) {
+                            let images = element.images;
+                            images.forEach(image => {
+                                let img = document.createElement("img");
                                 img.classList.add("imageMessage");
-                                img.src=image.url
+                                img.src = image.url
                                 divMessage.appendChild(img);
                             })
                         }
-                        divMessage.addEventListener("click",()=>{
-                            let idMessage=divMessage.getAttribute("id")
-                            editButton.setAttribute("id",idMessage);
-                            editButton.removeAttribute("disabled");
-                            let inputChat=document.querySelector(".inputChat");
-                            inputChat.value="";
-                        })
                     }
             })}
     })}
@@ -252,6 +245,42 @@ async function editMessage(idMessage){
     boxChat.innerHTML=""
     displayMessagesGeneral()
 }
+
+function addRemoveReaction(emoji,idMessage){
+    let params = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization":`Bearer ${token}`
+        },
+    }
+    fetch(`https://b1messenger.esdlyon.dev/api/reaction/message/${idMessage}/${emoji.id}`,params)
+        .then(res=>{
+            let emojiSelectBox=document.querySelector(".emojiSelectBox");
+            emojiSelectBox.style.display="none";
+            boxChat.innerHTML=""
+            displayMessagesGeneral()
+        })
+}
+function addRemoveReactionPrivate(emoji,idMessage){
+    let sendButton=document.querySelector(".buttonChatBtn");
+
+    let params = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization":`Bearer ${token}`
+        },
+    }
+    fetch(`https://b1messenger.esdlyon.dev/api/private/message/${idMessage}/${emoji.id}`,params)
+        .then(res=>{
+            let emojiSelectBox=document.querySelector(".emojiSelectBox");
+            emojiSelectBox.style.display="none";
+            boxChat.innerHTML=""
+            displayMessages(sendButton.id);
+        })
+}
+
 
 //-->display all the message in the general section
 async function displayMessagesGeneral(){
@@ -321,6 +350,53 @@ async function displayMessagesGeneral(){
                 responseButton.addEventListener("click",()=>{
                     inputChat.classList.add("responseInput");
                     inputChat.id=divMessageAll.id
+                })
+
+                //-->let button Emoji
+                let emojiButton=document.createElement("button");
+                emojiButton.classList.add("emojiButton");
+                emojiButton.innerHTML="+"
+                divMessageAll.appendChild(emojiButton)
+                emojiButton.addEventListener("click",()=>{
+                    let idMessage=divMessageAll.id;
+                    let emojiSelectBox=document.createElement("div");
+                    emojiSelectBox.classList.add("emojiSelectBox");
+                    let emojiSmile=document.createElement("span");
+                    emojiSmile.textContent="🙂"
+                    emojiSmile.setAttribute("id","smile");
+                    emojiSmile.addEventListener("click",()=>{
+                        addRemoveReaction(emojiSmile,idMessage)
+                    })
+                    let emojiHappy=document.createElement("span");
+                    emojiHappy.textContent="😃"
+                    emojiHappy.setAttribute("id","happy");
+                    emojiHappy.addEventListener("click",()=>{
+                        addRemoveReaction(emojiHappy,idMessage)
+                    })
+                    let emojiSad=document.createElement("span");
+                    emojiSad.textContent="😭"
+                    emojiSad.setAttribute("id","sadd");
+                    emojiSad.addEventListener("click",()=>{
+                        addRemoveReaction(emojiSad,idMessage)
+                    })
+                    let emojiCry=document.createElement("span");
+                    emojiCry.textContent="😢"
+                    emojiCry.setAttribute("id","cryy");
+                    emojiCry.addEventListener("click",()=>{
+                        addRemoveReaction(emojiCry,idMessage)
+                    })
+                    let emojiVomi=document.createElement("span");
+                    emojiVomi.textContent="🤢"
+                    emojiVomi.setAttribute("id","vomi");
+                    emojiVomi.addEventListener("click",()=>{
+                        addRemoveReaction(emojiVomi,idMessage)
+                    })
+                    emojiSelectBox.appendChild(emojiSmile);
+                    emojiSelectBox.appendChild(emojiHappy);
+                    emojiSelectBox.appendChild(emojiSad);
+                    emojiSelectBox.appendChild(emojiCry);
+                    emojiSelectBox.appendChild(emojiVomi);
+                    divMessageAll.appendChild(emojiSelectBox);
                 })
 
                 //-->réactions
@@ -410,6 +486,52 @@ async function displayMessagesGeneral(){
                         divMessageAll.appendChild(reactionSmiley1);
                     })
                 }
+                //-->let button Emoji
+                let emojiButton=document.createElement("button");
+                emojiButton.classList.add("emojiButton");
+                emojiButton.innerHTML="+"
+                divMessageAll.appendChild(emojiButton)
+                emojiButton.addEventListener("click",()=>{
+                    let idMessage=divMessageAll.id;
+                    let emojiSelectBox=document.createElement("div");
+                    emojiSelectBox.classList.add("emojiSelectBox");
+                    let emojiSmile=document.createElement("span");
+                    emojiSmile.textContent="🙂"
+                    emojiSmile.setAttribute("id","smile");
+                    emojiSmile.addEventListener("click",()=>{
+                        addRemoveReaction(emojiSmile,idMessage)
+                    })
+                    let emojiHappy=document.createElement("span");
+                    emojiHappy.textContent="😃"
+                    emojiHappy.setAttribute("id","happy");
+                    emojiHappy.addEventListener("click",()=>{
+                        addRemoveReaction(emojiHappy,idMessage)
+                    })
+                    let emojiSad=document.createElement("span");
+                    emojiSad.textContent="😭"
+                    emojiSad.setAttribute("id","sadd");
+                    emojiSad.addEventListener("click",()=>{
+                        addRemoveReaction(emojiSad,idMessage)
+                    })
+                    let emojiCry=document.createElement("span");
+                    emojiCry.textContent="😢"
+                    emojiCry.setAttribute("id","cryy");
+                    emojiCry.addEventListener("click",()=>{
+                        addRemoveReaction(emojiCry,idMessage)
+                    })
+                    let emojiVomi=document.createElement("span");
+                    emojiVomi.textContent="🤢"
+                    emojiVomi.setAttribute("id","vomi");
+                    emojiVomi.addEventListener("click",()=>{
+                        addRemoveReaction(emojiVomi,idMessage)
+                    })
+                    emojiSelectBox.appendChild(emojiSmile);
+                    emojiSelectBox.appendChild(emojiHappy);
+                    emojiSelectBox.appendChild(emojiSad);
+                    emojiSelectBox.appendChild(emojiCry);
+                    emojiSelectBox.appendChild(emojiVomi);
+                    divMessageAll.appendChild(emojiSelectBox);
+                })
             }
 
             if(!(element.responses===undefined || element.responses===[])){
@@ -674,7 +796,94 @@ sendButton.addEventListener("click",()=>{
                                     message.innerHTML=element.content;
                                     divMessages.appendChild(message);
                                     boxChat.appendChild(divMessages);
-                                }
+
+
+                                    //-->button delete
+                                    let deleteButton=document.createElement("button");
+                                    deleteButton.classList.add("buttonDelete");
+                                    deleteButton.innerHTML=`<svg class="svgTrash" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0L284.2 0c12.1 0 23.2 6.8 28.6 17.7L320 32l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l96 0 7.2-14.3zM32 128l384 0 0 320c0 35.3-28.7 64-64 64L96 512c-35.3 0-64-28.7-64-64l0-320zm96 64c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16z"/></svg>`
+                                    divMessages.appendChild(deleteButton)
+                                    deleteButton.addEventListener("click",()=>{
+                                        let idMessage=divMessages.id;
+                                        deleteMessage(idMessage);
+                                    })
+
+                                    //-->let button Emoji
+                                    let emojiButton=document.createElement("button");
+                                    emojiButton.classList.add("emojiButton");
+                                    emojiButton.innerHTML="+"
+                                    divMessages.appendChild(emojiButton)
+                                    emojiButton.addEventListener("click",()=>{
+                                        let idMessage=divMessages.id;
+                                        let emojiSelectBox=document.createElement("div");
+                                        emojiSelectBox.classList.add("emojiSelectBox");
+                                        let emojiSmile=document.createElement("span");
+                                        emojiSmile.textContent="🙂"
+                                        emojiSmile.setAttribute("id","smile");
+                                        emojiSmile.addEventListener("click",()=>{
+                                            addRemoveReactionPrivate(emojiSmile,idMessage)
+                                        })
+                                        let emojiHappy=document.createElement("span");
+                                        emojiHappy.textContent="😃"
+                                        emojiHappy.setAttribute("id","happy");
+                                        emojiHappy.addEventListener("click",()=>{
+                                            addRemoveReactionPrivate(emojiHappy,idMessage)
+                                        })
+                                        let emojiSad=document.createElement("span");
+                                        emojiSad.textContent="😭"
+                                        emojiSad.setAttribute("id","sadd");
+                                        emojiSad.addEventListener("click",()=>{
+                                            addRemoveReactionPrivate(emojiSad,idMessage)
+                                        })
+                                        let emojiCry=document.createElement("span");
+                                        emojiCry.textContent="😢"
+                                        emojiCry.setAttribute("id","cryy");
+                                        emojiCry.addEventListener("click",()=>{
+                                            addRemoveReactionPrivate(emojiCry,idMessage)
+                                        })
+                                        let emojiVomi=document.createElement("span");
+                                        emojiVomi.textContent="🤢"
+                                        emojiVomi.setAttribute("id","vomi");
+                                        emojiVomi.addEventListener("click",()=>{
+                                            addRemoveReactionPrivate(emojiVomi,idMessage)
+                                        })
+                                        emojiSelectBox.appendChild(emojiSmile);
+                                        emojiSelectBox.appendChild(emojiHappy);
+                                        emojiSelectBox.appendChild(emojiSad);
+                                        emojiSelectBox.appendChild(emojiCry);
+                                        emojiSelectBox.appendChild(emojiVomi);
+                                        divMessages.appendChild(emojiSelectBox);
+                                    })
+
+                                    //-->réactions
+                                    if(!(element.reactions===[])) {
+                                        let allReactions=element.reactions
+                                        let reactionsBox = document.createElement("div");
+                                        reactionsBox.classList.add("reactionsBox");
+                                        allReactions.forEach(reaction=>{
+                                            let reactionSmiley=document.createElement("span");
+                                            switch(reaction.type){
+                                                case "smile":
+                                                    reactionSmiley.innerHTML="🙂"
+                                                    break;
+                                                case "happy":
+                                                    reactionSmiley.innerHTML="😃"
+                                                    break;
+                                                case "sadd":
+                                                    reactionSmiley.innerHTML="😭"
+                                                    break;
+                                                case "cryy":
+                                                    reactionSmiley.innerHTML="😢"
+                                                    break;
+                                                case "vomi":
+                                                    reactionSmiley.innerHTML="🤢"
+                                                    break;
+                                            }
+                                            reactionsBox.appendChild(reactionSmiley);
+                                            divMessages.appendChild(reactionSmiley);
+                                        })
+
+                                    }}
                             })}})
     })}else{
         if(!(inputChat.classList.contains("responseInput"))){

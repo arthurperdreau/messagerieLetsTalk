@@ -139,18 +139,7 @@ body,html{
     background-color: transparent;
 }
 
-.inputAddImage{
 
-}
-input[type=file]::file-selector-button {
-    border: none;
-    background-color: #A238FF;
-    color: white;
-    padding: 0.5vh;
-    border-radius: 10px;
-    margin-left: 2vh;
-    font-weight: bold;
-}
 
 
 .editButton{
@@ -196,10 +185,7 @@ input[type=file]::file-selector-button {
     border: 1px solid #88a595;
 }
 
-button:disabled {
-    background-color: lightgray;
-    color: white;
-}
+
 .iconSend{
     height: 4vh;
     width: 4vh;
@@ -286,6 +272,19 @@ button:disabled {
 .reactionsBox{
     width: 100%;
     display: flex;
+}
+
+.emojiSelectBox{
+    display: flex;
+    background-color: #ffffff;
+    border:2px solid #f6bc2b;
+}
+
+.emojiButton{
+    border: none;
+    background-color: transparent;
+    font-size: 3vh;
+    color: #f6bc2b;
 }
 
 .buttonBackToHome{
